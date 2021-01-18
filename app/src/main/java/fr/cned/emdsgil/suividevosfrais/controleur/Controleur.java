@@ -3,12 +3,18 @@ package fr.cned.emdsgil.suividevosfrais.controleur;
 import android.content.Context;
 import android.util.Log;
 import android.widget.DatePicker;
+import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.Hashtable;
 
+import fr.cned.emdsgil.suividevosfrais.R;
+import fr.cned.emdsgil.suividevosfrais.modele.FraisHf;
+import fr.cned.emdsgil.suividevosfrais.modele.FraisHfAdapter;
 import fr.cned.emdsgil.suividevosfrais.modele.FraisMois;
 import fr.cned.emdsgil.suividevosfrais.outils.Global;
 import fr.cned.emdsgil.suividevosfrais.outils.Serializer;
+import fr.cned.emdsgil.suividevosfrais.vue.HfRecapActivity;
 import fr.cned.emdsgil.suividevosfrais.vue.MainActivity;
 
 /**
@@ -29,6 +35,7 @@ public final class Controleur {
     private String typeFrais, motif;
     private Float montant;
     private FraisMois fraisMois;
+    private ArrayList<FraisHf> lesFraisHf;
 
 
     // -------- CONSTRUCTEUR --------
@@ -116,8 +123,16 @@ public final class Controleur {
                     this.qte = fraisMois.getRepas();
                     break;
 
+                case "recupFraisHf":
+                    this.lesFraisHf = fraisMois.getLesFraisHf();
+
                 default:
                     Log.d("Erreur: ", "Type de frais manquant");
+            }
+        }
+        else{
+            if (typeFrais == "recupFraisHf"){
+                lesFraisHf = new ArrayList<>();
             }
         }
     }
@@ -225,5 +240,9 @@ public final class Controleur {
 
     public void setMontant(Float montant) {
         this.montant = montant;
+    }
+
+    public ArrayList<FraisHf> getLesFraisHf() {
+        return lesFraisHf;
     }
 }
