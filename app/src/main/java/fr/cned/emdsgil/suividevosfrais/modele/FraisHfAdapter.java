@@ -1,16 +1,20 @@
 package fr.cned.emdsgil.suividevosfrais.modele;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Locale;
 
 import fr.cned.emdsgil.suividevosfrais.R;
+import fr.cned.emdsgil.suividevosfrais.controleur.Controleur;
+import fr.cned.emdsgil.suividevosfrais.vue.HfRecapActivity;
 
 /**
  * Classe adapter pour les frais hors forfait
@@ -27,6 +31,8 @@ public class FraisHfAdapter extends BaseAdapter {
     // -------- VARIABLES --------
     private final ArrayList<FraisHf> lesFrais; // liste des frais du mois
     private final LayoutInflater inflater;
+    private Controleur controleur;
+    private Context context;
 
 
     // -------- CONSTRUCTEUR --------
@@ -38,8 +44,10 @@ public class FraisHfAdapter extends BaseAdapter {
      * @param lesFrais Liste des frais hors forfait
      */
     public FraisHfAdapter(Context context, ArrayList<FraisHf> lesFrais) {
+        this.context = context;
         inflater = LayoutInflater.from(context);
         this.lesFrais = lesFrais;
+        this.controleur = Controleur.getControleur();
     }
 
 
@@ -77,6 +85,7 @@ public class FraisHfAdapter extends BaseAdapter {
         TextView txtListJour;
         TextView txtListMontant;
         TextView txtListMotif;
+        ImageButton btnSuppr;
     }
 
     /**
@@ -91,13 +100,25 @@ public class FraisHfAdapter extends BaseAdapter {
             holder.txtListJour = convertView.findViewById(R.id.txtListJour);
             holder.txtListMontant = convertView.findViewById(R.id.txtListMontant);
             holder.txtListMotif = convertView.findViewById(R.id.txtListMotif);
+            holder.btnSuppr = convertView.findViewById(R.id.cmdSuppHf);
             convertView.setTag(holder);
         } else {
             holder = (ViewHolder) convertView.getTag();
         }
-        holder.txtListJour.setText(String.format(Locale.FRANCE, "%d", lesFrais.get(index).getJour()));
-        holder.txtListMontant.setText(String.format(Locale.FRANCE, "%.2f", lesFrais.get(index).getMontant()));
+        holder.txtListJour.setText(String.format(Locale.FRANCE, "%d",
+                lesFrais.get(index).getJour()));
+        holder.txtListMontant.setText(String.format(Locale.FRANCE, "%.2f",
+                lesFrais.get(index).getMontant()));
         holder.txtListMotif.setText(lesFrais.get(index).getMotif());
+
+        holder.btnSuppr.setOnClickListener(new ImageButton.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                lesFrais.remove(index);
+                controleur.suppFraisHf(index, context);
+                notifyDataSetChanged(); // Rafraîchit la liste directement après la suppression
+            }
+        });
         return convertView;
     }
 

@@ -129,9 +129,8 @@ public final class Controleur {
                 default:
                     Log.d("Erreur: ", "Type de frais manquant");
             }
-        }
-        else{
-            if (typeFrais == "recupFraisHf"){
+        } else {
+            if (typeFrais == "recupFraisHf") {
                 lesFraisHf = new ArrayList<>();
             }
         }
@@ -200,6 +199,18 @@ public final class Controleur {
                 Log.d("ERREUR: ", "Type de frais inconnu");
         }
     }
+
+    /**
+     * Supprime un frais de la liste de frais hors forfait
+     *
+     * @param index L'index du frais hors forfait à supprimer dans la liste
+     * @param context Le contexte de l'activity sur laquelle on demande la suppression
+     */
+    public void suppFraisHf(Integer index, Context context) {
+        fraisMois.supprFraisHf(index);
+        serialize(context);
+    }
+
 
     /**
      * Sérialisation des données saisies
