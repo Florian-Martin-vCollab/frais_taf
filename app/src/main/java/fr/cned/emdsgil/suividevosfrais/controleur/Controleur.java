@@ -36,7 +36,7 @@ public final class Controleur {
      * Original : Typage explicite =
      * public static Hashtable<Integer, FraisMois> listFraisMois = new Hashtable<Integer, FraisMois>();
      */
-    private int testMerge;
+    private int testMerge2;
 
     // -------- CONSTRUCTEUR --------
 
