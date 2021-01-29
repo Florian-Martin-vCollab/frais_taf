@@ -31,12 +31,16 @@ public final class Controleur {
     private Float montant;
     private FraisMois fraisMois;
     private ArrayList<FraisHf> lesFraisHf;
+
+    public static Hashtable<Integer, FraisMois> getListeFraisMois() {
+        return listeFraisMois;
+    }
+
     private static Hashtable<Integer, FraisMois> listeFraisMois = new Hashtable<>(); // tableau d'informations mémorisées
     /* Retrait du type de l'Hashtable (Optimisation Android Studio)
      * Original : Typage explicite =
      * public static Hashtable<Integer, FraisMois> listFraisMois = new Hashtable<Integer, FraisMois>();
      */
-    private int testMerge2;
 
     // -------- CONSTRUCTEUR --------
 

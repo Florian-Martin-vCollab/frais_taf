@@ -3,6 +3,7 @@ package fr.cned.emdsgil.suividevosfrais.vue;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -10,8 +11,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Iterator;
+import java.util.Set;
+
 import fr.cned.emdsgil.suividevosfrais.controleur.Controleur;
 import fr.cned.emdsgil.suividevosfrais.R;
+import fr.cned.emdsgil.suividevosfrais.modele.FraisMois;
 
 
 /**
@@ -92,8 +103,24 @@ public class MainActivity extends AppCompatActivity {
     private void cmdTransfert_clic() {
         findViewById(R.id.cmdTransfert).setOnClickListener(new Button.OnClickListener() {
             public void onClick(View v) {
-                // envoi les informations sérialisées vers le serveur
-                // en construction
+
+                Hashtable<Integer, FraisMois> hashtable = Controleur.getListeFraisMois();
+                Set keys = hashtable.keySet();
+                Iterator itr = keys.iterator();
+                String key;
+                JSONArray jsonArray = new JSONArray();
+
+                while (itr.hasNext()){
+                    key = itr.next().toString();
+
+                    FraisMois fraisMois = hashtable.get(Integer.valueOf(key));
+                    try {
+                        jsonArray.put(FraisMois.toJSON(fraisMois));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+                Log.d("***********", jsonArray.toString());
             }
         });
     }
